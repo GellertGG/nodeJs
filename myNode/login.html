@@ -108,37 +108,52 @@
     </div>
     <div class="deal">
         <button class="btn" id="login" onclick="login(event)">登陆</button>
-        <button class="btn" id="register" onclick="login(event)">注册</button>
+        <button class="btn" id="register" onclick="register(event)">注册</button>
     </div>
 </div>
 <p id="message"></p>
 </body>
 <script>
+    //登录调用的方法
     function login(ev) {
         var username = $("#userName").val();
         var password = $("#passWord").val();
-        var type = ev.currentTarget.id;
         $.ajax({
             type: 'POST',   //JavaScript 的闭包特性保证了回调函数执行时依然处在之前的执行上下文中，可以取到正确的变量的值。
-            url: 'http://localhost:8080/',
+            url: 'http://localhost:8082/login',
             dataType: "text",            //如果后台返回数据的类型和dataType类型不匹配的话就会导致页面虽然成功接收到后台返回的信息，但是不进入success回调方法
-            data: {"username": username, "password": password, "type": type},
+            data: {"username": username, "password": password},
             success: function (response) {
                 debugger;
-                resp = response;
+                resp = eval("(" + response + ")");
+                if (resp.isLogin == true) {
+                    $("#message").text("登录成功");
+                } else {
+                    $("#message").text("登录失败");
+                }
+            },
+            error: function (data) {
                 debugger;
-                if (type == "login") {
-                    if(resp=="Y"){
-                        $("#message").text("登录成功");
-                    }else{
-                        $("#message").text("登录失败");
-                    }
-                }else{
-                    if(resp=="Y"){
-                        $("#message").text("注册成功");
-                    }else{
-                        $("#message").text("注册失败");
-                    }
+            }
+        });
+    }
+
+    //注册调用的方法
+    function register(ev) {
+        var username = $("#userName").val();
+        var password = $("#passWord").val();
+        $.ajax({
+            type: 'POST',   //JavaScript 的闭包特性保证了回调函数执行时依然处在之前的执行上下文中，可以取到正确的变量的值。
+            url: 'http://localhost:8082/register',
+            dataType: "text",            //如果后台返回数据的类型和dataType类型不匹配的话就会导致页面虽然成功接收到后台返回的信息，但是不进入success回调方法
+            data: {"username": username, "password": password},
+            success: function (response) {
+                debugger;
+                resp = eval("(" + response + ")");
+                if (resp.isRegister == false) {
+                    $("#message").text("注册成功");
+                } else {
+                    $("#message").text("注册失败");
                 }
             },
             error: function (data) {
