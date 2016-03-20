@@ -120,7 +120,7 @@
         var password = $("#passWord").val();
         $.ajax({
             type: 'POST',   //JavaScript 的闭包特性保证了回调函数执行时依然处在之前的执行上下文中，可以取到正确的变量的值。
-            url: 'http://localhost:8082/login',
+            url: '/login',
             dataType: "text",            //如果后台返回数据的类型和dataType类型不匹配的话就会导致页面虽然成功接收到后台返回的信息，但是不进入success回调方法
             data: {"username": username, "password": password},
             success: function (response) {
@@ -144,7 +144,7 @@
         var password = $("#passWord").val();
         $.ajax({
             type: 'POST',   //JavaScript 的闭包特性保证了回调函数执行时依然处在之前的执行上下文中，可以取到正确的变量的值。
-            url: 'http://localhost:8082/register',
+            url: '/register',
             dataType: "text",            //如果后台返回数据的类型和dataType类型不匹配的话就会导致页面虽然成功接收到后台返回的信息，但是不进入success回调方法
             data: {"username": username, "password": password},
             success: function (response) {
